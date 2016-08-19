@@ -1,0 +1,24 @@
+Source: pepperflashplugin-adobe-nonfree
+Section: contrib/web
+Priority: extra
+Maintainer: John Crawley <john@bunsenlabs.org>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+#Homepage: https://github.com/BunsenLabs/pepperflashplugin-adobe-nonfree
+#Vcs-Git: https://github.com/BunsenLabs/pepperflashplugin-adobe-nonfree.git
+#Vcs-Browser: https://github.com/BunsenLabs/pepperflashplugin-adobe-nonfree.git
+
+Package: pepperflashplugin-adobe-nonfree
+Architecture: i386
+Depends: ${misc:Depends}, wget, curl, binutils
+Suggests: browser-plugin-freshplayer-pepperflash
+Conflicts: pepperflashplugin-nonfree
+Replaces: pepperflashplugin-nonfree
+Description: Pepper Flash Player - browser plugin
+ This package will download and unpack the PPAPI flash plugin from Adobe,
+ and add configuration files for chromium and 
+ browser-plugin-freshplayer-pepperflash.
+ The end user license agreement is available at Adobe.
+ .
+ NOTE: no checksum verification of the downloaded file is performed.
+ 

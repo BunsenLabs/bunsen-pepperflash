@@ -1,0 +1,11 @@
+pepperflashplugin-adobe-nonfree
+===============================
+
+This package will download and unpack the PPAPI flash plugin directly from Adobe.
+Configuration files for chromium and browser-plugin-freshplayer-pepperflash
+will be installed so that those applications can use the plugin.
+
+The end user license agreement is available at Adobe.
+
+NOTE: no checksum verification of the downloaded file is performed.
+
