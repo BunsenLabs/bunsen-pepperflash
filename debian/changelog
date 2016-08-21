@@ -1,5 +1,6 @@
-pepperflashplugin-adobe-nonfree (0.1-1) UNRELEASED; urgency=medium
+pepperflashplugin-adobe-nonfree (0.1-2) unstable; urgency=medium
 
   * Initial release.
+  * Add Pre-Depends: ca-certificates
 
- -- John Crawley <john@bunsenlabs.org>  Wed, 17 Aug 2016 18:53:56 +0900
+ -- John Crawley <john@bunsenlabs.org>  Sun, 21 Aug 2016 11:12:19 +0900

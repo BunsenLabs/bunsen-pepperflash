@@ -11,7 +11,8 @@ Standards-Version: 3.9.5
 Package: pepperflashplugin-adobe-nonfree
 Architecture: i386
 Depends: ${misc:Depends}, wget, curl, binutils
-Suggests: browser-plugin-freshplayer-pepperflash
+Pre-Depends: ca-certificates
+Suggests: chromium, browser-plugin-freshplayer-pepperflash
 Conflicts: pepperflashplugin-nonfree
 Replaces: pepperflashplugin-nonfree
 Description: Pepper Flash Player - browser plugin
