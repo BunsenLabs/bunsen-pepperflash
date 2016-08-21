@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #    update-pepperflashplugin-adobe-nonfree: a script to check Adobe for
-#     possible upgrades of the pepperflash plugin for 32bit Linux,
-#     and offer to download and install.
+#    possible upgrades of the pepperflash plugin for 32bit Linux,
+#    and offer to download and install.
 #
 #    Copyright © 2016  John Crawley <john@bunsenlabs.org>
 #
@@ -131,6 +131,7 @@ config_freshwrapper(){
 }
 
 install_flash(){
+    check_versions || return 0
     echo 'Installing flash...'
     tempdir="$(mktemp -d)" || error_exit 'failed to make temporary directory'
     trap cleanup EXIT
@@ -142,6 +143,14 @@ install_flash(){
     mv -f "$tempdir/$filename" "$tempdir/$manifest" "$flashdir" || error_exit "failed to move files to $flashdir"
     config_chromium
     config_freshwrapper
+}
+
+upgrade_flash(){
+    [[ -r $flash_file ]] || {
+        echo "Flash plugin not currently installed"
+        return 0
+    }
+    install_flash
 }
 
 uninstall_flash(){
@@ -275,11 +284,11 @@ enable_xrender = 1
 case $opt in
 --help|-h)
     echo "$HELP"
-    exit
+    exit 0
     ;;
 --install|-i)
     check_root
-    check_versions && install_flash
+    install_flash
     exit
     ;;
 --uninstall|-u)
@@ -289,11 +298,7 @@ case $opt in
     ;;
 --upgrade|-g)
     check_root
-    [[ -r $flash_file ]] || {
-        echo "$0: Flash plugin not currently installed"
-        exit
-    }
-    check_versions && install_flash
+    upgrade_flash
     ;;
 --status|-s)
     check_versions
