@@ -115,9 +115,9 @@ cleanup(){
 
 config_chromium(){
     echo 'Configuring chromium...'
-    mkdir -p "$chromium_confdir"
+    mkdir -p "$chromium_confdir" || error_exit "failed to make directory $chromium_confdir"
     rm -f "$chromium_confdir/pepperflashplugin-nonfree"
-    cat <<EOF > "$chromium_configfile"
+    cat <<EOF > "$chromium_configfile" || error_exit "failed to generate $chromium_configfile"
 flashso="$flash_file"
 flashversion=\$(strings \$flashso 2>/dev/null |  sed -n '/LNX/ {s/^LNX //;s/,/./gp}')
 CHROMIUM_FLAGS="\$CHROMIUM_FLAGS --ppapi-flash-path=\$flashso --ppapi-flash-version=\$flashversion"
@@ -127,7 +127,7 @@ EOF
 
 config_freshwrapper(){
     echo 'Configuring the freshplayer plugin...'
-    cat <<< "$freshwrapper_conf" > "$freshwrapper_configfile"
+    cat <<< "$freshwrapper_conf" > "$freshwrapper_configfile" || error_exit "failed to generate $freshwrapper_configfile"
 }
 
 install_flash(){
@@ -135,14 +135,18 @@ install_flash(){
     echo 'Installing flash...'
     tempdir="$(mktemp -d)" || error_exit 'failed to make temporary directory'
     trap cleanup EXIT
-    wget --directory-prefix="$tempdir" "https://fpdownload.adobe.com/pub/flashplayer/pdc/$newver/flash_player_ppapi_linux.i386.tar.gz" || error_exit 'download failed'
+    local wget_opt=
+    [[ ${FUNCNAME[1]} = upgrade_flash ]] && wget_opt='-q'
+    wget ${wget_opt-} --directory-prefix="$tempdir" "https://fpdownload.adobe.com/pub/flashplayer/pdc/$newver/flash_player_ppapi_linux.i386.tar.gz" || error_exit 'download failed'
     tar -xf "$tempdir/flash_player_ppapi_linux.i386.tar.gz" --directory "$tempdir" "$filename" "$manifest" || error_exit 'failed to unpack archive'
     gotver=$(strings "$tempdir/$filename" 2>/dev/null | sed -n '/LNX/ {s/^LNX //;s/,/./gp}')
-    [[ $gotver = $newver ]] || error_exit "The version of the downloaded flash library does not seem to match that published on the Adobe site."
-    mkdir -p "$flashdir"
+    [[ "$gotver" = "$newver" ]] || error_exit "The version of the downloaded flash library does not seem to match that published on the Adobe site."
+    mkdir -p "$flashdir" || error_exit "failed to make directory $flashdir"
     mv -f "$tempdir/$filename" "$tempdir/$manifest" "$flashdir" || error_exit "failed to move files to $flashdir"
     config_chromium
     config_freshwrapper
+    [[ ${FUNCNAME[1]} = upgrade_flash ]] && hash notify-broadcast && notify-broadcast 'Flash upgrade' "The Adobe pepperflash plugin has been upgraded
+from <b>$instver</b> to <b>$newver</b>" --icon=dialog-information --expire-time=20000
 }
 
 upgrade_flash(){
