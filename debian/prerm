@@ -4,6 +4,11 @@ set -e
 
 case "$1" in
     remove|upgrade|deconfigure)
+    if hash systemctl
+    then
+        systemctl stop pepperflash-adobe.timer
+        systemctl disable pepperflash-adobe.timer
+    fi
     update-pepperflashplugin-adobe-nonfree --uninstall
     ;;
 

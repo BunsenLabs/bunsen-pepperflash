@@ -1,1 +1,4 @@
-update-pepperflashplugin-adobe-nonfree usr/bin
+update-pepperflashplugin-adobe-nonfree usr/sbin
+systemd-timer/* etc/systemd/system
+notify-broadcast/notify-failure@.service etc/systemd/system
+notify-broadcast/notify-broadcast usr/sbin
