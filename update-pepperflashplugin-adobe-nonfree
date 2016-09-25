@@ -41,6 +41,10 @@ To use options -i, -u and -g, run script as root.
 Option -g is intended for non-interactive use:
 STDOUT is quieter and important messages are sent via notify-send.
 
+NOTE: If the plugin is uninstalled with the -u option,
+it will still be reinstalled after a package upgrade.
+To permanently uninstall the plugin, uninstall this package.
+
 '
 
 pkgname=pepperflashplugin-adobe-nonfree
@@ -149,8 +153,11 @@ install_flash(){
     mv -f "$tempdir/$filename" "$tempdir/$manifest" "$flashdir" || error_exit "failed to move files to $flashdir"
     config_chromium
     config_freshwrapper
-    [[ ${quiet-} = true ]] && hash notify-broadcast && notify-broadcast 'Flash upgrade' "The Adobe pepperflash plugin has been upgraded
+    if [[ ${quiet-} = true ]] && hash notify-broadcast
+    then
+        notify-broadcast 'Flash upgrade' "The Adobe pepperflash plugin has been upgraded
 from <b>$instver</b> to <b>$newver</b>" --icon=dialog-information --expire-time=20000
+    fi
 }
 
 upgrade_flash(){
@@ -163,7 +170,7 @@ upgrade_flash(){
 
 uninstall_flash(){
     echo 'Uninstalling flash...'
-    rm -f "$flash_file"
+    rm -f "$flash_file" "$flashdir/$manifest"
     rmdir --ignore-fail-on-non-empty "$flashdir"
     rm -f "$chromium_configfile"
     rm -f "$freshwrapper_configfile"

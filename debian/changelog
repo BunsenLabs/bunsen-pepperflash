@@ -1,3 +1,12 @@
+pepperflashplugin-adobe-nonfree (0.4-1) unstable; urgency=high
+
+  * Fix return value bug in update-pepperflashplugin-adobe-nonfree.
+  * Use dh_systemd for package building.
+  * Install systemd files to /lib/systemd/system
+  * Add Recommends: systemd, libnotify-bin
+
+ -- John Crawley <john@bunsenlabs.org>  Sun, 25 Sep 2016 17:01:32 +0900
+
 pepperflashplugin-adobe-nonfree (0.3-1) unstable; urgency=medium
 
   * Add systemd service and timer

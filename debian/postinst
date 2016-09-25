@@ -5,11 +5,6 @@ set -e
 case "$1" in
     configure)
     update-pepperflashplugin-adobe-nonfree --install
-    if hash systemctl
-    then
-        systemctl enable pepperflash-adobe.timer
-        systemctl start pepperflash-adobe.timer
-    fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
