@@ -9,3 +9,10 @@ The end user license agreement is available at Adobe.
 
 NOTE: no checksum verification of the downloaded file is performed.
 
+NOTE: This is an experimental package.
+File names and the package name itself may change with any official release.
+
+NOTE: The "notify-broadcast" folder content will probably be moved 
+to a different package in the future, again, maybe with different names.
+
+

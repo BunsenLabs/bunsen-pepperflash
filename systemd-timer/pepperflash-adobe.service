@@ -5,5 +5,5 @@ OnFailure=notify-failure@The\x20Adobe\x20Flash\x20update\x20script\x20returned\x
 [Service]
 Type=oneshot
 ExecStartPre=/bin/sleep 600
-ExecStart=/usr/sbin/update-pepperflashplugin-adobe-nonfree-test --upgrade
+ExecStart=/usr/sbin/update-pepperflashplugin-adobe-nonfree --upgrade
 Nice=5

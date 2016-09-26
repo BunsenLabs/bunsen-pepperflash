@@ -1,3 +1,9 @@
+pepperflashplugin-adobe-nonfree (0.4.1-1) UNRELEASED; urgency=medium
+
+  * Disable starting of pepperflash-adobe.service on install.
+
+ -- John Crawley <john@bunsenlabs.org>  Mon, 26 Sep 2016 13:57:30 +0900
+
 pepperflashplugin-adobe-nonfree (0.4-1) unstable; urgency=high
 
   * Fix return value bug in update-pepperflashplugin-adobe-nonfree.
