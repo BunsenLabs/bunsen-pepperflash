@@ -1,4 +1,2 @@
-update-pepperflashplugin-adobe-nonfree usr/sbin
+update-bunsen-pepperflash usr/sbin
 systemd-timer/* lib/systemd/system
-notify-broadcast/notify-failure@.service lib/systemd/system
-notify-broadcast/notify-broadcast usr/sbin

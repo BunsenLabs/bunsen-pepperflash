@@ -4,7 +4,7 @@ set -e
 
 case "$1" in
     configure)
-    update-pepperflashplugin-adobe-nonfree --install
+    update-bunsen-pepperflash --install
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

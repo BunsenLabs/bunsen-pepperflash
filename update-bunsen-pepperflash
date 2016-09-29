@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#    update-pepperflashplugin-adobe-nonfree: a script to check Adobe for
+#    update-bunsen-pepperflash: a script to check Adobe for
 #    possible upgrades of the pepperflash plugin for 32bit Linux,
 #    and offer to download and install.
 #
@@ -47,7 +47,7 @@ To permanently uninstall the plugin, uninstall this package.
 
 '
 
-pkgname=pepperflashplugin-adobe-nonfree
+pkgname=bunsen-pepperflash
 
 flashdir="/usr/lib/$pkgname" # Flash player will be installed here.
 filename=libpepflashplayer.so
@@ -116,26 +116,26 @@ check_versions(){
 
     if dpkg --compare-versions "$newver" gt "$instver"
     then
-        [[ ${quiet-} = false ]] && echo "The upstream version is newer."
+        [[ ${quiet-} = true ]] || echo "The upstream version is newer."
         return 0
     else
-        [[ ${quiet-} = false ]] && echo "You already have the newest version."
+        [[ ${quiet-} = true ]] || echo "You already have the newest version."
         return 1
     fi
 }
 
 cleanup(){
-    [[ ${quiet-} = false ]] && echo 'Cleaning up...'
+    [[ ${quiet-} = true ]] || echo 'Cleaning up...'
     [[ -d $tempdir && $tempdir = /tmp/* ]] && {
         rm -rf "$tempdir"
-        [[ ${quiet-} = false ]] && echo "Deleted $tempdir"
+        [[ ${quiet-} = true ]] || echo "Deleted $tempdir"
         return 0
     }
     return 1
 }
 
 config_chromium(){
-    [[ ${quiet-} = false ]] && echo 'Configuring chromium...'
+    [[ ${quiet-} = true ]] || echo 'Configuring chromium...'
     mkdir -p "$chromium_confdir" || error_exit "failed to make directory $chromium_confdir"
     rm -f "$chromium_confdir/pepperflashplugin-nonfree"
     cat <<EOF > "$chromium_configfile" || error_exit "failed to generate $chromium_configfile"
@@ -147,13 +147,13 @@ EOF
 }
 
 config_freshwrapper(){
-    [[ ${quiet-} = false ]] && echo 'Configuring the freshplayer plugin...'
+    [[ ${quiet-} = true ]] || echo 'Configuring the freshplayer plugin...'
     cat <<< "$freshwrapper_conf" > "$freshwrapper_configfile" || error_exit "failed to generate $freshwrapper_configfile"
 }
 
 install_flash(){
     check_versions || return 0
-    [[ ${quiet-} = false ]] && echo 'Installing flash...'
+    [[ ${quiet-} = true ]] || echo 'Installing flash...'
     tempdir="$(mktemp -d)" || error_exit 'failed to make temporary directory'
     trap cleanup EXIT
     local wget_opt=
@@ -166,9 +166,9 @@ install_flash(){
     mv -f "$tempdir/$filename" "$tempdir/$manifest" "$flashdir" || error_exit "failed to move files to $flashdir"
     config_chromium
     config_freshwrapper
-    if [[ ${quiet-} = true ]] && hash notify-broadcast
+    if [[ ${quiet-} = true ]] && hash bl-notify-broadcast
     then
-        notify-broadcast 'Flash upgrade' "The Adobe pepperflash plugin has been upgraded
+        bl-notify-broadcast 'Flash upgrade' "The Adobe pepperflash plugin has been upgraded
 from <b>$instver</b> to <b>$newver</b>" --icon=dialog-information --expire-time=20000
     fi
 }
@@ -184,7 +184,7 @@ upgrade_flash(){
 uninstall_flash(){
     echo 'Uninstalling flash...'
     rm -f "$flash_file" "$flashdir/$manifest"
-    rmdir --ignore-fail-on-non-empty "$flashdir"
+    rmdir --ignore-fail-on-non-empty "$flashdir" || true
     rm -f "$chromium_configfile"
     rm -f "$freshwrapper_configfile"
 }

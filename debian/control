@@ -1,18 +1,18 @@
-Source: pepperflashplugin-adobe-nonfree
+Source: bunsen-pepperflash
 Section: contrib/web
 Priority: extra
 Maintainer: John Crawley <john@bunsenlabs.org>
 Build-Depends: debhelper (>= 9), dh-systemd (>= 1.5)
 Standards-Version: 3.9.5
-#Homepage: https://github.com/BunsenLabs/pepperflashplugin-adobe-nonfree
-#Vcs-Git: https://github.com/BunsenLabs/pepperflashplugin-adobe-nonfree.git
-#Vcs-Browser: https://github.com/BunsenLabs/pepperflashplugin-adobe-nonfree.git
+Homepage: https://github.com/BunsenLabs/bunsen-pepperflash
+Vcs-Git: https://github.com/BunsenLabs/bunsen-pepperflash.git
+Vcs-Browser: https://github.com/BunsenLabs/bunsen-pepperflash.git
 
-Package: pepperflashplugin-adobe-nonfree
+Package: bunsen-pepperflash
 Architecture: i386
 Depends: ${misc:Depends}, wget, curl, binutils
 Pre-Depends: ca-certificates
-Recommends: systemd, libnotify-bin
+Recommends: systemd, bunsen-utilities
 Suggests: chromium, browser-plugin-freshplayer-pepperflash
 Conflicts: pepperflashplugin-nonfree
 Replaces: pepperflashplugin-nonfree
@@ -21,6 +21,7 @@ Description: Pepper Flash Player - browser plugin
  and add configuration files for chromium and 
  browser-plugin-freshplayer-pepperflash.
  The end user license agreement is available at Adobe.
+ This package itself does not contain any software from Adobe.
  .
  NOTE: no checksum verification of the downloaded file is performed.
  

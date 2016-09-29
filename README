@@ -1,18 +1,23 @@
-pepperflashplugin-adobe-nonfree
-===============================
+bunsen-pepperflash
+==================
 
 This package will download and unpack the PPAPI flash plugin directly from Adobe.
 Configuration files for chromium and browser-plugin-freshplayer-pepperflash
 will be installed so that those applications can use the plugin.
 
 The end user license agreement is available at Adobe.
+This package itself does not contain any software from Adobe.
 
 NOTE: no checksum verification of the downloaded file is performed.
 
-NOTE: This is an experimental package.
-File names and the package name itself may change with any official release.
+USAGE: The installed script /usr/sbin/update-bunsen-pepperflash is
+run automatically on install or uninstall of this package,
+but can also be run manually.
+Run 'update-bunsen-pepperflash --help' to see options.
 
-NOTE: The "notify-broadcast" folder content will probably be moved 
-to a different package in the future, again, maybe with different names.
+A systemd timer will run the upgrade check every day.
+To change this behaviour, copy /lib/systemd/system/bunsen-pepperflash.timer to 
+/etc/systemd/system/bunsen-pepperflash.timer, edit the latter file, and
+run 'systemctl reenable bunsen-pepperflash.timer'.
 
 

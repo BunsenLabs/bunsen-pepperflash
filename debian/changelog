@@ -1,4 +1,12 @@
-pepperflashplugin-adobe-nonfree (0.4.1-1) UNRELEASED; urgency=medium
+bunsen-pepperflash (8.0-1) jessie-backports; urgency=medium
+
+  * Rename package and files for BunsenLabs.
+  * README: Add USAGE section.
+  * Remove notify-broadcast files.
+
+ -- John Crawley <john@bunsenlabs.org>  Thu, 29 Sep 2016 16:35:31 +0900
+
+pepperflashplugin-adobe-nonfree (0.4.1-1) unstable; urgency=medium
 
   * Disable starting of pepperflash-adobe.service on install.
 
