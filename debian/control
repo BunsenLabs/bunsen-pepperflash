@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/BunsenLabs/bunsen-pepperflash.git
 
 Package: bunsen-pepperflash
 Architecture: i386 amd64
-Depends: ${misc:Depends}, wget, curl, binutils
+Depends: ${misc:Depends}, wget, curl, binutils, python2.7, python-bs4
 Pre-Depends: ca-certificates
 Recommends: systemd, bunsen-utilities
 Suggests: chromium, browser-plugin-freshplayer-pepperflash
