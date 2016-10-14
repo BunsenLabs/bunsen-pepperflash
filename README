@@ -20,4 +20,7 @@ To change this behaviour, copy /lib/systemd/system/bunsen-pepperflash.timer to
 /etc/systemd/system/bunsen-pepperflash.timer, edit the latter file, and
 run 'systemctl reenable bunsen-pepperflash.timer'.
 
+If the recommended package bunsen-utilities is also installed, 
+popup notifications of plugin upgrades or script errors will be displayed.
+
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #    update-bunsen-pepperflash: a script to check Adobe for
-#    possible upgrades of the pepperflash plugin for 32bit Linux,
+#    possible upgrades of the pepperflash plugin for Linux,
 #    and offer to download and install.
 #
 #    Copyright © 2016  John Crawley <john@bunsenlabs.org>
@@ -22,11 +22,17 @@
 set -u
 
 HELP='A script to check Adobe for possible upgrades of the pepperflash plugin
-for 32bit Linux, and offer to download and install.
-Only for i386 architecture, and replaces pepperflashplugin-nonfree.
+for Linux, and offer to download and install.
+Only for i386 and amd64 architectures,
+and replaces the package pepperflashplugin-nonfree,
+which must be uninstalled before use.
 
-To use with Mozilla browsers,
+Chromium will be able to use the downloaded plugin immediately,
+but for Mozilla browsers the package
 browser-plugin-freshplayer-pepperflash must be installed.
+
+This script is run automatically when the package bunsen-pepperflash
+is installed, but may be run manually.
 
 Options:
 --help -h       Show this message.
@@ -52,7 +58,9 @@ pkgname=bunsen-pepperflash
 flashdir="/usr/lib/$pkgname" # Flash player will be installed here.
 filename=libpepflashplayer.so
 manifest=manifest.json
+
 flash_file="$flashdir/$filename"
+manifest_file="$flashdir/$manifest"
 
 chromium_confdir='/etc/chromium.d/'
 chromium_configfile="$chromium_confdir/$pkgname"
@@ -67,8 +75,19 @@ error_exit() {
     exit 1
 }
 
-[[ $(dpkg --print-architecture) = i386 ]] || error_exit 'This script can only be used on systems with i386 architecture.'
 [[ $(dpkg-query --show --showformat='${db:Status-Abbrev;2}' pepperflashplugin-nonfree 2>/dev/null) = ii ]] && error_exit 'pepperflashplugin-nonfree must be uninstalled before using this script.'
+
+case "$(dpkg --print-architecture)" in
+i386)
+    arch='i386'
+    ;;
+amd64)
+    arch='x86_64'
+    ;;
+*)
+    error_exit 'There is no flash plugin available for your system architecture.'
+    ;;
+esac
 
 missing_commands=()
 for i in "${required_commands[@]}"
@@ -158,8 +177,8 @@ install_flash(){
     trap cleanup EXIT
     local wget_opt=
     [[ ${quiet-} = true ]] && wget_opt='-q'
-    wget ${wget_opt-} --directory-prefix="$tempdir" "https://fpdownload.adobe.com/pub/flashplayer/pdc/$newver/flash_player_ppapi_linux.i386.tar.gz" || error_exit 'download failed'
-    tar -xf "$tempdir/flash_player_ppapi_linux.i386.tar.gz" --directory "$tempdir" "$filename" "$manifest" || error_exit 'failed to unpack archive'
+    wget ${wget_opt-} --directory-prefix="$tempdir" "https://fpdownload.adobe.com/pub/flashplayer/pdc/$newver/flash_player_ppapi_linux.$arch.tar.gz" || error_exit 'download failed'
+    tar -xf "$tempdir/flash_player_ppapi_linux.$arch.tar.gz" --directory "$tempdir" "$filename" "$manifest" || error_exit 'failed to unpack archive'
     gotver=$(strings "$tempdir/$filename" 2>/dev/null | sed -n '/LNX/ {s/^LNX //;s/,/./gp}')
     [[ "$gotver" = "$newver" ]] || error_exit "The version of the downloaded flash library does not seem to match that published on the Adobe site."
     mkdir -p "$flashdir" || error_exit "failed to make directory $flashdir"
@@ -183,7 +202,7 @@ upgrade_flash(){
 
 uninstall_flash(){
     echo 'Uninstalling flash...'
-    rm -f "$flash_file" "$flashdir/$manifest"
+    rm -f "$flash_file" "$manifest_file"
     rmdir --ignore-fail-on-non-empty "$flashdir" || true
     rm -f "$chromium_configfile"
     rm -f "$freshwrapper_configfile"
