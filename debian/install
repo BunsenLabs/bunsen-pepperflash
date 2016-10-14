@@ -1,2 +1,3 @@
 update-bunsen-pepperflash usr/sbin
 systemd-timer/* lib/systemd/system
+get-adobe-flashver.py usr/lib/bunsen/pepperflash

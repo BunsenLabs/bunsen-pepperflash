@@ -68,6 +68,8 @@ chromium_configfile="$chromium_confdir/$pkgname"
 # config file for browser-plugin-freshplayer-pepperflash
 freshwrapper_configfile='/etc/freshwrapper.conf'
 
+version_checker='/usr/lib/bunsen/pepperflash/get-adobe-flashver.py'
+
 required_commands=(curl wget awk strings)
 
 error_exit() {
@@ -75,6 +77,7 @@ error_exit() {
     exit 1
 }
 
+[[ -x "$version_checker" ]] || error_exit "Cannot find necessary script: $version_checker"
 [[ $(dpkg-query --show --showformat='${db:Status-Abbrev;2}' pepperflashplugin-nonfree 2>/dev/null) = ii ]] && error_exit 'pepperflashplugin-nonfree must be uninstalled before using this script.'
 
 case "$(dpkg --print-architecture)" in
@@ -107,20 +110,8 @@ check_root() {
 
 check_versions(){
     echo 'Checking Flash version available from Adobe...'
-    local awk_script='BEGIN {
-        RS="<td rowspan=\""
-        FS="</td>"
-    }
-    /Linux/ {
-        for(i=1;i<NF;i++)
-            if( $i ~ /Chromium-based browsers - PPAPI/ ) {
-                i++
-                sub(/^[^0-9]*/,"",$i)
-                print $i
-                exit
-            }
-    }'
-    newver=$(curl -s http://www.adobe.com/software/flash/about/ |  awk "$awk_script")
+    newver=$($version_checker) || error_exit "$version_checker returned an error."
+    [[ "$newver" =~ ^[0-9]+(\.[0-9]+){3}$ ]] || error_exit "$version_checker returned an unacceptable result: $newver."
     echo "Upstream version: $newver"
 
     if [[ -r $flash_file ]]
