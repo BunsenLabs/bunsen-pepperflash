@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 #
 #    get-adobe-flashver.py: a script to read, from the Adobe website,
 #    the version number of the latest flash plugin for a
@@ -38,7 +38,7 @@ TYPE_regex = 'Chromium.* PPAPI'
 adobe_url = 'https://www.adobe.com/software/flash/about/'
 ca_certs_path = '/etc/ssl/certs' # ca-certificates on Debian Jessie
 
-def err_exit(*msgs):
+def die(*msgs):
     print('\n'.join(msgs), file=sys.stderr)
     sys.exit(1)
 
@@ -66,13 +66,17 @@ def latest_version():
     try:
         body = urlopen(adobe_url, capath=ca_certs_path).read()
     except URLError as e:
-        err_exit('URLError: Bad URL or certs path?', str(e.reason))
-    soup = BeautifulSoup(body, 'html.parser')
+        die('URLError: Bad URL or certs path?', str(e.reason))
+    try:
+        soup = BeautifulSoup(body, 'html.parser')
+    except BaseException as err:
+        die('Failed to load data', err)
     matrix = table2matrix(soup.find('table', { 'class': 'data-bordered' }))
-    version, = [x[Column.VERSION] for x in matrix if re.search(OS_regex, x[Column.OS]) and re.search(TYPE_regex, x[Column.TYPE])]
+    version, = [row[Column.VERSION] for row in matrix if re.search(OS_regex, row[Column.OS]) and re.search(TYPE_regex, row[Column.TYPE])]
     return version
 
-try:
-    print(latest_version())
-except ValueError:
-    err_exit('Parsing error: regular expressions wrong?')
+if __name__ == '__main__':
+    try:
+        print(latest_version())
+    except ValueError:
+        die('Parsing error: regular expressions wrong?')
