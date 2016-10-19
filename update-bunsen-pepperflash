@@ -68,9 +68,10 @@ chromium_configfile="$chromium_confdir/$pkgname"
 # config file for browser-plugin-freshplayer-pepperflash
 freshwrapper_configfile='/etc/freshwrapper.conf'
 
+# script should be installed in same package
 version_checker='/usr/lib/bunsen/pepperflash/get-adobe-flashver.py'
 
-required_commands=(curl wget awk strings)
+required_commands=(curl wget strings)
 
 error_exit() {
     echo "$0 error: $1" >&2
