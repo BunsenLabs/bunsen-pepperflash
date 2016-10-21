@@ -39,7 +39,7 @@ adobe_url = 'https://www.adobe.com/software/flash/about/'
 ca_certs_path = '/etc/ssl/certs' # ca-certificates on Debian Jessie
 
 def die(*msgs):
-    print('\n'.join(msgs), file=sys.stderr)
+    print(*msgs, sep='\n', file=sys.stderr)
     sys.exit(1)
 
 class Column:
@@ -65,10 +65,9 @@ def table2matrix(t):
 def latest_version():
     try:
         body = urlopen(adobe_url, capath=ca_certs_path).read()
-    except URLError as e:
-        die('URLError: Bad URL or certs path?', str(e.reason))
-    try:
         soup = BeautifulSoup(body, 'html.parser')
+    except URLError as err:
+        die('URLError: Bad URL or certs path?', err)
     except BaseException as err:
         die('Failed to load data', err)
     matrix = table2matrix(soup.find('table', { 'class': 'data-bordered' }))
