@@ -3,6 +3,7 @@
 #    update-bunsen-pepperflash: a script to check Adobe for
 #    possible upgrades of the pepperflash plugin for Linux,
 #    and offer to download and install.
+#    This script is part of the package bunsen-pepperflash.
 #
 #    Copyright © 2016  John Crawley <john@bunsenlabs.org>
 #
@@ -24,7 +25,7 @@ set -u
 HELP='A script to check Adobe for possible upgrades of the pepperflash plugin
 for Linux, and offer to download and install.
 Only for i386 and amd64 architectures,
-and replaces the package pepperflashplugin-nonfree,
+and bunsen-pepperflash replaces the package pepperflashplugin-nonfree,
 which must be uninstalled before use.
 
 Chromium will be able to use the downloaded plugin immediately,
@@ -55,7 +56,7 @@ To permanently uninstall the plugin, uninstall this package.
 
 pkgname=bunsen-pepperflash
 
-flashdir="/usr/lib/$pkgname" # Flash player will be installed here.
+flashdir="/usr/lib/$pkgname" # Flash plugin will be installed here.
 filename=libpepflashplayer.so
 manifest=manifest.json
 
@@ -68,7 +69,7 @@ chromium_configfile="$chromium_confdir/$pkgname"
 # config file for browser-plugin-freshplayer-pepperflash
 freshwrapper_configfile='/etc/freshwrapper.conf'
 
-# script should be installed in same package
+# script should be installed by same package
 version_checker='/usr/lib/bunsen/pepperflash/get-adobe-flashver.py'
 
 required_commands=(curl wget strings)
