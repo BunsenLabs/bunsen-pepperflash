@@ -1,4 +1,4 @@
-bunsen-pepperflash (8.0-1~test) UNRELEASED; urgency=medium
+bunsen-pepperflash (8.0-1) bunsen-hydrogen; urgency=medium
 
   * Rename package and files for BunsenLabs.
   * README: Add USAGE section.

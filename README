@@ -5,6 +5,10 @@ This package will download and unpack the PPAPI flash plugin directly from Adobe
 Configuration files for chromium and browser-plugin-freshplayer-pepperflash
 will be installed so that those applications can use the plugin.
 
+Chromium will be able to use the downloaded plugin immediately,
+but for Mozilla browsers the package
+browser-plugin-freshplayer-pepperflash must also be installed.
+
 The end user license agreement is available at Adobe.
 This package itself does not contain any software from Adobe.
 
@@ -16,11 +20,9 @@ but can also be run manually.
 Run 'update-bunsen-pepperflash --help' to see options.
 
 A systemd timer will run the upgrade check every day.
-To change this behaviour, copy /lib/systemd/system/bunsen-pepperflash.timer to 
+To change this behaviour, copy /lib/systemd/system/bunsen-pepperflash.timer to
 /etc/systemd/system/bunsen-pepperflash.timer, edit the latter file, and
 run 'systemctl reenable bunsen-pepperflash.timer'.
 
-If the recommended package bunsen-utilities is also installed, 
+If the recommended package bunsen-utilities is also installed,
 popup notifications of plugin upgrades or script errors will be displayed.
-
-
