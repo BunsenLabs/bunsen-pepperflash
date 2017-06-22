@@ -6,12 +6,12 @@ Disclaimer: This package will download and install
  but itself does not contain any non-free software.
 
 Files: *
-Copyright: 2016 John Crawley <john@bunsenlabs.org>
+Copyright: 2016-2017 John Crawley <john@bunsenlabs.org>
 Copyright: 2016 Jens John <dev@2ion.de>
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2016 John Crawley <john@bunsenlabs.org>
+Copyright: 2016-2017 John Crawley <john@bunsenlabs.org>
 License: GPL-3.0+
 
 License: GPL-3.0+

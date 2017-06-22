@@ -36,7 +36,7 @@ OS_regex = 'Linux'
 TYPE_regex = 'Chromium.* PPAPI'
 
 adobe_url = 'https://www.adobe.com/software/flash/about/'
-ca_certs_path = '/etc/ssl/certs' # ca-certificates on Debian Jessie
+ca_certs_path = '/etc/ssl/certs' # ca-certificates on Debian Stretch
 
 def die(*msgs):
     print(*msgs, sep='\n', file=sys.stderr)
