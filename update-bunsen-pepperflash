@@ -110,10 +110,6 @@ check_root() {
     [[ $( id -u ) -eq 0 ]] || error_exit "$opt: must be root to use this option"
 }
 
-version(){
-    echo "$@" | gawk -F. '{printf("%03d%03d%03d%03d\n", $1,$2,$3,$4); }'
-}
-
 check_versions(){
     echo 'Checking Flash version available from Adobe...'
     newver=$($version_checker) || error_exit "$version_checker returned an error."
@@ -130,7 +126,7 @@ check_versions(){
         return 0
     fi
 
-    if [ "$(version "$newver")" -gt "$(version "$instver")" ]
+    if [[ "$newver" > "$instver" ]]
     then
         [[ ${quiet-} = true ]] || echo "The upstream version is newer."
         return 0
