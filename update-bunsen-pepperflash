@@ -82,7 +82,7 @@ error_exit() {
 [[ -x "$version_checker" ]] || error_exit "Cannot find necessary script: $version_checker"
 [[ $(dpkg-query --show --showformat='${db:Status-Abbrev;2}' pepperflashplugin-nonfree 2>/dev/null) = ii ]] && error_exit 'pepperflashplugin-nonfree must be uninstalled before using this script.'
 
-case "$(uname -a)" in
+case "$(uname -m)" in
 i*86)
     arch='i386'
     ;;
