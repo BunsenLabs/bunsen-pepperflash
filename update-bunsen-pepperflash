@@ -82,11 +82,11 @@ error_exit() {
 [[ -x "$version_checker" ]] || error_exit "Cannot find necessary script: $version_checker"
 [[ $(dpkg-query --show --showformat='${db:Status-Abbrev;2}' pepperflashplugin-nonfree 2>/dev/null) = ii ]] && error_exit 'pepperflashplugin-nonfree must be uninstalled before using this script.'
 
-case "$(dpkg --print-architecture)" in
-i386)
+case "$(uname -m)" in
+i*86)
     arch='i386'
     ;;
-amd64)
+x86_64)
     arch='x86_64'
     ;;
 *)
@@ -106,7 +106,7 @@ and rerun the script."
 opt="${1-}"
 quiet=false
 
-check_root() {
+check_root(){
     [[ $( id -u ) -eq 0 ]] || error_exit "$opt: must be root to use this option"
 }
 
@@ -126,7 +126,7 @@ check_versions(){
         return 0
     fi
 
-    if dpkg --compare-versions "$newver" gt "$instver"
+    if [[ "$newver" > "$instver" ]]
     then
         [[ ${quiet-} = true ]] || echo "The upstream version is newer."
         return 0
