@@ -29,5 +29,11 @@ include /usr/share/dpkg/default.mk
 override_dh_systemd_start:
 	dh_systemd_start bunsen-pepperflash.timer
 
+override_dh_installman:
+	debian/genman.sh
+	dh_installman
 
+override_dh_clean:
+	dh_clean
+	debian/genman.sh --clean
 
