@@ -1,6 +1,6 @@
 [Unit]
 Description=Check Adobe for pepperflash upgrade.
-OnFailure=bl-notify-failure@The\x20Adobe\x20Flash\x20update\x20script\x20returned\x20an\x20error.\x0aRun\x20\x27sudo\x20journalctl\x20\x2du\x20pepperflash\x2dadobe\x27\x20for\x20details..service
+OnFailure=bl-notify-failure@The\x20Adobe\x20Flash\x20update\x20script\x20returned\x20an\x20error.\x0aRun\x20\x27journalctl\x20\x2du\x20bunsen\x2dpepperflash\x27\x20for\x20details..service
 
 [Service]
 Type=oneshot
